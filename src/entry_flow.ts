@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 import readline from "readline";
-import { CliqueClient } from "@cliqueofficial/clique-sdk";
+import { CliqueClient, Environment } from "@cliqueofficial/clique-sdk";
 
 dotenv.config();
 
@@ -15,6 +15,7 @@ const walletAddress = String(process.env.WALLET_ADDRESS);
   });
 
   const client = new CliqueClient({
+    env: Environment.Production,
     apiKey,
     apiSecret,
   });

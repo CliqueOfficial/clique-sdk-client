@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import open from "open";
 import readline from "readline";
-import { CliqueClient } from "@cliqueofficial/clique-sdk";
+import { CliqueClient, Environment } from "@cliqueofficial/clique-sdk";
 
 dotenv.config();
 
@@ -16,6 +16,7 @@ const redirect_uri = "http://localhost:8080/social_login";
   });
 
   const client = new CliqueClient({
+    env: Environment.Production,
     apiKey,
     apiSecret,
   });
