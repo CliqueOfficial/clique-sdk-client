@@ -35,7 +35,7 @@ const walletAddress = String(process.env.WALLET_ADDRESS);
       });
       console.log(submitEntryResult);
 
-      const updateEntryResult = await client.campaign.submitEntry({
+      const updateEntryResult = await client.campaign.updateEntry({
         walletAddress,
         twitterAccessToken,
       });
