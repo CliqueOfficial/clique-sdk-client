@@ -28,11 +28,19 @@ const walletAddress = String(process.env.WALLET_ADDRESS);
       });
       console.log(data);
 
-      const result = await client.campaign.submitEntry({
+      const submitEntryResult = await client.campaign.submitEntry({
         walletAddress,
         twitterAccessToken,
       });
-      console.log(result);
+      console.log(submitEntryResult);
+
+      const updateEntryResult = await client.campaign.submitEntry({
+        walletAddress,
+        twitterAccessToken,
+      });
+      console.log(updateEntryResult);
+
+      process.exit(0);
     }
   );
 })();
