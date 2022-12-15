@@ -6,7 +6,7 @@
   "author": "Han Wu <xjohnwu@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@cliqueofficial/clique-sdk": "^0.0.9"
+    "@cliqueofficial/clique-sdk": "^1.0.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
