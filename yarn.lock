@@ -3,9 +3,9 @@
 
 
 "@cliqueofficial/clique-sdk@^1.0.1":
-  version "1.0.2"
-  resolved "https://npm.pkg.github.com/download/@cliqueofficial/clique-sdk/1.0.2/b3fe226cd121b86fd7714d8e346a1b41c403b738#b3fe226cd121b86fd7714d8e346a1b41c403b738"
-  integrity sha512-/PseijUPWtIhq+vHTc6I7dMarBI/7AS5RCvrjtH9SFH7sZ2yAL3RzYTaJvmo95IDVKlZzjlGW5MBINhzy/iyYA==
+  version "1.1.0"
+  resolved "https://npm.pkg.github.com/download/@cliqueofficial/clique-sdk/1.1.0/c101d2a501b212bede805805e8a2bb74d697a90e#c101d2a501b212bede805805e8a2bb74d697a90e"
+  integrity sha512-sQAY7LBxOvpsrQvwwmexeXeSF/Jz38P2iGC3GGba2T40MXkz39W/sko/3vIMF6tWOPplvOouN200bZJr2oOaLw==
   dependencies:
     axios "^1.1.3"
 
@@ -20,9 +20,9 @@ asynckit@^0.4.0:
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
 axios@^1.1.3:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.2.1.tgz#44cf04a3c9f0c2252ebd85975361c026cb9f864a"
-  integrity sha512-I88cFiGu9ryt/tfVEi4kX2SITsvDddTajXTOFmt2uK1ZVA8LytjtdeyefdQWEf5PU8w+4SSJDoYnggflB5tW4A==
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.2.3.tgz#31a3d824c0ebf754a004b585e5f04a5f87e6c4ff"
+  integrity sha512-pdDkMYJeuXLZ6Xj/Q5J3Phpe+jbGdsSzlQaFVkMQzRUL05+6+tetX8TV3p4HrU4kzuO9bt+io/yGQxuyxA/xcw==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
