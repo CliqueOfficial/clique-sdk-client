@@ -16,7 +16,7 @@ const redirect_uri = "http://localhost:8080/social_login";
   });
 
   const client = new CliqueClient({
-    env: Environment.Production,
+    env: Environment.Test,
     apiKey,
     apiSecret,
   });
