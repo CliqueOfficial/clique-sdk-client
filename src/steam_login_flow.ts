@@ -21,6 +21,23 @@ const redirect_uri = "http://localhost:8080/social_login";
     apiSecret,
   });
 
+  const { url } = await client.steam.getOpenIDAuthLink({
+    host_url: 'http://localhost:8080',
+    callback_url: redirect_uri,
+  });
+  console.log(url);
+  open(url);
 
+  rl.question("Please copy & paste the browser url after you login steam: ", async (rUrl) => {
+    const { steamToken } = await client.steam.getSteamToken({
+      authVerifyUrl: rUrl
+    });
+    console.log({ steamToken });
+
+    const { steamId } = await client.steam.getSteamIdByToken(steamToken);
+    console.log({ steamId });
+
+    process.exit(0);
+  });
 
 })();
