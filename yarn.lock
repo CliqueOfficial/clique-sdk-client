@@ -295,10 +295,10 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@cliqueofficial/clique-sdk@^1.2.0":
-  version "1.2.0"
-  resolved "https://npm.pkg.github.com/download/@cliqueofficial/clique-sdk/1.2.0/24c456b4c02450ee71e55b3e28147c2d62251bd2#24c456b4c02450ee71e55b3e28147c2d62251bd2"
-  integrity sha512-luUD5bzqtz2XYF73PNYmjENVU16YCyuS+GE9V6awtSTWTH7z/XY/F88lAvGXMDUZAHt6R8khRAbXIFgEacy7bg==
+"@cliqueofficial/clique-sdk@^1.2.2":
+  version "1.2.2"
+  resolved "https://npm.pkg.github.com/download/@cliqueofficial/clique-sdk/1.2.2/9dae2c8196d62d60668df637c07089453ba660b5#9dae2c8196d62d60668df637c07089453ba660b5"
+  integrity sha512-Hzvd8zTlMzjR8rp9HZyT7xBx+AeQSZNg6mYeM4yRC0qIw1OtAOJSRJh7mbWXWUWE0vCEcs/8o51M6LOPc55yog==
   dependencies:
     axios "^1.1.3"
 

@@ -12,4 +12,8 @@ yarn install
 
 ts-node ./src/twitter_login_flow.ts
 ts-node ./src/entry_flow.ts
+
+wallet flow demo: npm run dev
+
+
 ```

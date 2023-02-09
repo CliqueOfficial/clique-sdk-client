@@ -83,7 +83,7 @@ const Web3Auth = () => {
     return (
         <div className="flexCenterClu">
 
-            <div className="colorWhite"> {JSON.stringify(ENV)}</div>
+            <div className="colorWhite textWarp" style={{width: 1000}}> {JSON.stringify(ENV)}</div>
 
             <div className="marginTop30 gradient-text bold marginBottom30"
                  style={{fontSize: 50}}>
