@@ -23,7 +23,10 @@ let campaignParams: CampaignParams = {
       twitterAccessToken: undefined,
       discordAccessToken: undefined,
       steamToken: undefined,
-      selectPipelines: yargsOption.selectedPipelines as string[],
+      selectPipelines:
+            yargsOption.selectedPipelines.length > 0
+                  ? yargsOption.selectedPipelines
+                  : undefined,
 };
 
 let rl = readline.createInterface({
@@ -139,6 +142,7 @@ async function submitEntry() {
             twitterAccessToken: campaignParams.twitterAccessToken,
             discordAccessToken: campaignParams.discordAccessToken,
             selectPipelines: campaignParams.selectPipelines,
+            steamToken: campaignParams.steamToken,
       });
       console.log(`statistic data ${JSON.stringify(data)}`);
 
@@ -146,6 +150,7 @@ async function submitEntry() {
             walletAddress: campaignParams.walletAddress,
             twitterAccessToken: campaignParams.twitterAccessToken,
             discordAccessToken: campaignParams.discordAccessToken,
+            steamToken: campaignParams.steamToken,
       });
       console.log(`submit result ${JSON.stringify(submitEntryResult)}`);
 }
@@ -156,6 +161,7 @@ async function updateEntry() {
             twitterAccessToken: campaignParams.twitterAccessToken,
             discordAccessToken: campaignParams.discordAccessToken,
             selectPipelines: campaignParams.selectPipelines,
+            steamToken: campaignParams.steamToken,
       });
       console.log(`statistic data ${JSON.stringify(data)}`);
 
@@ -163,6 +169,7 @@ async function updateEntry() {
             walletAddress: campaignParams.walletAddress,
             twitterAccessToken: campaignParams.twitterAccessToken,
             discordAccessToken: campaignParams.discordAccessToken,
+            steamToken: campaignParams.steamToken,
       });
       console.log(`update result ${JSON.stringify(submitEntryResult)}`);
 }
