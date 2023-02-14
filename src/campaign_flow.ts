@@ -37,7 +37,7 @@ let rl = readline.createInterface({
 const question = util.promisify(rl.question).bind(rl);
 
 const client = new CliqueClient({
-      env: validateEnviroment(yargsOption.enviroment),
+      env: validateEnvironment(yargsOption.environment),
       apiKey,
       apiSecret,
 });
@@ -197,14 +197,14 @@ async function main() {
       process.exit(0);
 }
 
-function validateEnviroment(e: number): number {
+function validateEnvironment(e: number): number {
       if (
             e != Environment.Dev &&
             e != Environment.Production &&
             e != Environment.Staging &&
             e != Environment.Test
       ) {
-            throw new Error(`invalid enviroment number ${e}!`);
+            throw new Error(`invalid environment number ${e}!`);
       }
       return e;
 }

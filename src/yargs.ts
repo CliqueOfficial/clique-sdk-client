@@ -31,7 +31,7 @@ export const yargsOption = yargs(hideBin(process.argv))
                   default: false,
                   alias: "dc",
             },
-            enviroment: {
+            environment: {
                   describe: "project environment. 0 Dev, 1  Test, 2 Staging, 3 Production ",
                   type: "number",
                   default: 1,
