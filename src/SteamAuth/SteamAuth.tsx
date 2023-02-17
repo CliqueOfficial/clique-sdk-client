@@ -10,7 +10,7 @@ const apiKey = String(ENV.VITE_API_KEY);
 const apiSecret = String(ENV.VITE_API_SECRET);
 
 const client = new CliqueClient({
-  env: Environment.Production,
+  env: Environment.Test,
   apiKey,
   apiSecret,
 });
@@ -27,7 +27,6 @@ const SteamAuth = () => {
   async function jumpToSteamAuth(){
     setLoading(true);
     const { url } = await client.steam.getOpenIDAuthLink({
-      host_url: 'http://localhost:5173/steam',
       callback_url: 'http://localhost:5173/steam',
     });
     setLoading(false);

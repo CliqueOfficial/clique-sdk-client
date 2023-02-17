@@ -49,7 +49,6 @@ async function steamAuthToken() {
       const redirect_uri = "http://localhost:8080/social_login";
 
       const { url } = await client.steam.getOpenIDAuthLink({
-            host_url: "http://localhost:8080",
             callback_url: redirect_uri,
       });
       console.log(`steam auth link  ${url}`);
@@ -136,7 +135,7 @@ async function checkTask(): Promise<boolean> {
       return data.every((element) => element.done === true);
 }
 
-async function submitEntry() {
+async function getStatistics() {
       const data = await client.campaign.getStatistics({
             walletAddress: campaignParams.walletAddress,
             twitterAccessToken: campaignParams.twitterAccessToken,
@@ -145,7 +144,9 @@ async function submitEntry() {
             steamToken: campaignParams.steamToken,
       });
       console.log(`statistic data ${JSON.stringify(data)}`);
+}
 
+async function submitEntry() {
       const submitEntryResult = await client.campaign.submitEntry({
             walletAddress: campaignParams.walletAddress,
             twitterAccessToken: campaignParams.twitterAccessToken,
@@ -156,15 +157,6 @@ async function submitEntry() {
 }
 
 async function updateEntry() {
-      const data = await client.campaign.getStatistics({
-            walletAddress: campaignParams.walletAddress,
-            twitterAccessToken: campaignParams.twitterAccessToken,
-            discordAccessToken: campaignParams.discordAccessToken,
-            selectPipelines: campaignParams.selectPipelines,
-            steamToken: campaignParams.steamToken,
-      });
-      console.log(`statistic data ${JSON.stringify(data)}`);
-
       const submitEntryResult = await client.campaign.updateEntry({
             walletAddress: campaignParams.walletAddress,
             twitterAccessToken: campaignParams.twitterAccessToken,
@@ -185,6 +177,8 @@ async function main() {
       if (yargsOption.hasDiscordAuth) {
             await discordAuthToken();
       }
+      // show statistics
+      await getStatistics();
       const passed = await checkTask();
       if (passed) {
             if (yargsOption.needSubmitEntry) {
