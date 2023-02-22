@@ -41,8 +41,7 @@ function getParamsFromUrl(url): Record<string, any>{
   return result;
 }
 
-// please set redirect_uri in twitter app dashboard url whitelist(allowlist)
-const redirect_uri = 'http://localhost:5173/twiiter';
+const redirect_uri = 'http://localhost:5173/twitter';
 
 const TwitterAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -59,7 +58,7 @@ const TwitterAuth = () => {
 
     const { url } = await client.twitter.getOAuth2Link({
       client_id: client_id,
-      redirect_uri: redirect_uri,
+      redirect_uri: redirect_uri
     });
     setLoading(false);
     // jump to the url
@@ -78,11 +77,11 @@ const TwitterAuth = () => {
     try {
       const client_id = await getClientId();
       const { access_token, refresh_token } = await client.twitter.getOAuth2Token({
-        code: params.code,
         client_id: client_id,
-        redirect_uri: redirect_uri,
+        code: params.code,
       });
       setTwitterToken({ access_token, refresh_token });
+      return;
     }catch (err){
       message.error(err.toString())
     }finally {
@@ -138,7 +137,7 @@ const TwitterAuth = () => {
                     loading={loading}
                     size={`large`}
                     onClick={getTwitterUserInfoByToken}>
-              Get Steam Id
+              Get Twitter User Info
             </Button>
           </div>
         )
