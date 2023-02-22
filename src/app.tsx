@@ -4,6 +4,7 @@ import './assets/global.css'
 import Web3Auth from "./Web3Auth/Web3Auth";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import SteamAuth from "./SteamAuth/SteamAuth";
+import TwitterAuth from "./TwitterAuth/TwitterAuth";
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -12,6 +13,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Routes>
         <Route path='/' element={<Web3Auth />} />
         <Route path='/steam' element={<SteamAuth />} />
+        <Route path='/twitter' element={<TwitterAuth />} />
       </Routes>
     </div>
   </BrowserRouter>

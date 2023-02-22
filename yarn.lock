@@ -295,12 +295,13 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@cliqueofficial/clique-sdk@^1.2.6":
-  version "1.2.6"
-  resolved "https://npm.pkg.github.com/download/@cliqueofficial/clique-sdk/1.2.6/20710e2355d1644f67bc1400e72a94242fd9c9ed#20710e2355d1644f67bc1400e72a94242fd9c9ed"
-  integrity sha512-Pal2jRhYoCUN8YHjH2woIY19zR0ZxLaU+HBDpRiV0iDl02tzISx3X2IRhB/S2b7UxoZ5LK6uU6uBPrpN9cRisQ==
+"@cliqueofficial/clique-sdk@^1.2.8":
+  version "1.2.8"
+  resolved "https://npm.pkg.github.com/download/@cliqueofficial/clique-sdk/1.2.8/43f9c21353b4b5e869d917c974a464a5673d1d01#43f9c21353b4b5e869d917c974a464a5673d1d01"
+  integrity sha512-Fq/n2qE9UwST7j/SsZIQhjUr5HDnOjATmOcmNXOz5WalPKHpR/HK63Rc+oZzwYC5j2HjMeXm7zTd1fUUzjQqIg==
   dependencies:
     axios "^1.1.3"
+    buffer "^6.0.3"
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
@@ -1129,6 +1130,14 @@ buffer@^5.7.1:
     base64-js "^1.3.1"
     ieee754 "^1.1.13"
 
+buffer@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.npmmirror.com/buffer/-/buffer-6.0.3.tgz#2ace578459cc8fbe2a70aaa8f52ee63b6a74c6c6"
+  integrity sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==
+  dependencies:
+    base64-js "^1.3.1"
+    ieee754 "^1.2.1"
+
 builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmmirror.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
@@ -1713,7 +1722,7 @@ https-browserify@^1.0.0:
   resolved "https://registry.npmmirror.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
   integrity sha512-J+FkSdyD+0mA0N+81tMotaRMfSL9SGi+xpD3T6YApKsc3bGSXJlfXri3VyFOeYkfLRQisDk1W+jIFFKBeUBbBg==
 
-ieee754@^1.1.13:
+ieee754@^1.1.13, ieee754@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npmmirror.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
