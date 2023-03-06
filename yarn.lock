@@ -295,10 +295,10 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@cliqueofficial/clique-sdk@^1.2.8":
-  version "1.2.8"
-  resolved "https://npm.pkg.github.com/download/@cliqueofficial/clique-sdk/1.2.8/43f9c21353b4b5e869d917c974a464a5673d1d01#43f9c21353b4b5e869d917c974a464a5673d1d01"
-  integrity sha512-Fq/n2qE9UwST7j/SsZIQhjUr5HDnOjATmOcmNXOz5WalPKHpR/HK63Rc+oZzwYC5j2HjMeXm7zTd1fUUzjQqIg==
+"@cliqueofficial/clique-sdk@1.2.10":
+  version "1.2.10"
+  resolved "https://npm.pkg.github.com/download/@cliqueofficial/clique-sdk/1.2.10/64391e7d59cc672b5738916503d7e47c9493e814#64391e7d59cc672b5738916503d7e47c9493e814"
+  integrity sha512-fBoZvjuYYvpFP3YDEWAEWLx/3S24pzpAhE08L+Ez8VEOGZKiENKoX6JK3o1e4BcjsSc2Yx90rdqhL3S91a8TAg==
   dependencies:
     axios "^1.1.3"
     buffer "^6.0.3"
@@ -1006,9 +1006,9 @@ available-typed-arrays@^1.0.5:
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
 axios@^1.1.3:
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.3.tgz#e7011384ba839b885007c9c9fae1ff23dceb295b"
-  integrity sha512-eYq77dYIFS77AQlhzEL937yUBSepBfPIe8FcgEDN35vMNZKMrs81pgnyrQpwfy4NF4b4XWX1Zgx7yX+25w8QJA==
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.3.4.tgz#f5760cefd9cfb51fd2481acf88c05f67c4523024"
+  integrity sha512-toYm+Bsyl6VC5wSkfkbbNB6ROv7KY93PEBBL6xyDczaIHasAiv4wPqQ/c4RjoQzipxRD2W5g21cOqQulZ7rHwQ==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
@@ -1016,7 +1016,7 @@ axios@^1.1.3:
 
 base64-js@^1.3.1:
   version "1.5.1"
-  resolved "https://registry.npmmirror.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
+  resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
 
 bech32@1.1.4:
@@ -1132,7 +1132,7 @@ buffer@^5.7.1:
 
 buffer@^6.0.3:
   version "6.0.3"
-  resolved "https://registry.npmmirror.com/buffer/-/buffer-6.0.3.tgz#2ace578459cc8fbe2a70aaa8f52ee63b6a74c6c6"
+  resolved "https://registry.yarnpkg.com/buffer/-/buffer-6.0.3.tgz#2ace578459cc8fbe2a70aaa8f52ee63b6a74c6c6"
   integrity sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==
   dependencies:
     base64-js "^1.3.1"
