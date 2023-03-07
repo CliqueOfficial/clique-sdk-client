@@ -295,10 +295,10 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
-"@cliqueofficial/clique-sdk@1.2.10":
-  version "1.2.10"
-  resolved "https://npm.pkg.github.com/download/@cliqueofficial/clique-sdk/1.2.10/64391e7d59cc672b5738916503d7e47c9493e814#64391e7d59cc672b5738916503d7e47c9493e814"
-  integrity sha512-fBoZvjuYYvpFP3YDEWAEWLx/3S24pzpAhE08L+Ez8VEOGZKiENKoX6JK3o1e4BcjsSc2Yx90rdqhL3S91a8TAg==
+"@cliqueofficial/clique-sdk@1.2.11":
+  version "1.2.11"
+  resolved "https://npm.pkg.github.com/download/@cliqueofficial/clique-sdk/1.2.11/d78aef674db912dc1ccaa95a40c5e3561dc43af7#d78aef674db912dc1ccaa95a40c5e3561dc43af7"
+  integrity sha512-TXVw3IPbHKLcVeuFmHL+4OfAUP0kpTomxeNEca4de80KSZHNuwOxqg5xhBRvWGLuGNQ2mOu048p5k0xakx/7Pw==
   dependencies:
     axios "^1.1.3"
     buffer "^6.0.3"
@@ -816,6 +816,11 @@
   version "1.0.0"
   resolved "https://registry.npmmirror.com/@types/estree/-/estree-1.0.0.tgz#5fb2e536c1ae9bf35366eed879e827fa59ca41c2"
   integrity sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==
+
+"@types/js-cookie@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@types/js-cookie/-/js-cookie-3.0.3.tgz#d6bfbbdd0c187354ca555213d1962f6d0691ff4e"
+  integrity sha512-Xe7IImK09HP1sv2M/aI+48a20VX+TdRJucfq4vfRVy6nWN8PYPOEnlMRSgxJAgYQIXJVL8dZ4/ilAM7dWNaOww==
 
 "@types/node@^18.11.9":
   version "18.11.9"
@@ -1799,6 +1804,11 @@ isomorphic-timers-promises@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmmirror.com/isomorphic-timers-promises/-/isomorphic-timers-promises-1.0.1.tgz#e4137c24dbc54892de8abae3a4b5c1ffff381598"
   integrity sha512-u4sej9B1LPSxTGKB/HiuzvEQnXH0ECYkSVQU39koSwmFAxhlEAFl9RdTvLv4TOTQUgBS5O3O5fwUxk6byBZ+IQ==
+
+js-cookie@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.1.tgz#9e39b4c6c2f56563708d7d31f6f5f21873a92414"
+  integrity sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==
 
 js-sha3@0.8.0:
   version "0.8.0"
