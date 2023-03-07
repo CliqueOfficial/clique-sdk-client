@@ -12,6 +12,7 @@ yarn install
 
 ts-node ./src/twitter_login_flow.ts
 ts-node ./src/entry_flow.ts
+```
 
 wallet flow demo: 
 1. npm run dev or yarn dev
@@ -20,5 +21,3 @@ wallet flow demo:
 steam flow demo: 
 1. npm run dev or yarn dev
 2. view: http://localhost:5173/steam
-
-```

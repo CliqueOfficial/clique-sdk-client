@@ -4,37 +4,24 @@ import { Button, message } from "antd";
 import { client, ENV } from "../config";
 import { getParamsFromUrl } from "../utils";
 
-const redirect_uri = "http://localhost:5173/twitter";
-const TWITTER_ACCESS_TOKEN = "twitter_access_token";
-const TWITTER_REFRESH_TOKEN = "twitter_refresh_token";
-const TWITTER_CLIENT_ID = "twitter_client_id";
+const redirect_uri = "http://localhost:5173/discord";
+const DISCORD_ACCESS_TOKEN = "discord_access_token";
+const DISCORD_REFRESH_TOKEN = "discord_refresh_token";
 
-async function getClientId() {
-  let client_id = Cookies.get(TWITTER_CLIENT_ID);
-  if (!client_id) {
-    const data = await client.twitter.getClientId();
-    client_id = data.client_id;
-    Cookies.set(TWITTER_CLIENT_ID, client_id);
-  }
-  return client_id;
-}
-
-const TwitterAuth = () => {
+const discordAuth = () => {
   const [loading, setLoading] = useState(false);
   const [canGetToken, setCanGetToken] = useState(false);
-  const [twitterToken, setTwitterToken] = useState({
+  const [discordToken, setDiscordToken] = useState({
     access_token: null,
     refresh_token: null,
   });
-  const [twitterUser, setTwitterUser] = useState(null);
+  const [discordUser, setDiscordUser] = useState(null);
 
   async function jumpToAuth() {
     setLoading(true);
-    const client_id = await getClientId();
 
-    const { url } = await client.twitter.getOAuth2Link({
-      client_id: client_id,
-      redirect_uri: redirect_uri,
+    const { url } = await client.discord.getOAuth2Link({
+      redirect_uri,
     });
     setLoading(false);
     // jump to the url
@@ -43,7 +30,6 @@ const TwitterAuth = () => {
 
   async function checkUrlAndGetToken() {
     const params = getParamsFromUrl(window.location.href);
-
     if (!params.code) {
       return;
     }
@@ -51,17 +37,16 @@ const TwitterAuth = () => {
     setCanGetToken(true);
     setLoading(true);
     try {
-      const client_id = await getClientId();
       const { access_token, expires_in, refresh_token } =
-        await client.twitter.getOAuth2Token({
-          client_id: client_id,
+        await client.discord.getOAuth2Token({
+          redirect_uri,
           code: params.code,
         });
-      setTwitterToken({ access_token, refresh_token });
-      Cookies.set(TWITTER_ACCESS_TOKEN, access_token, {
+      setDiscordToken({ access_token, refresh_token });
+      Cookies.set(DISCORD_ACCESS_TOKEN, access_token, {
         expires: new Date(new Date().getTime() + expires_in * 1000),
       });
-      Cookies.set(TWITTER_REFRESH_TOKEN, refresh_token);
+      Cookies.set(DISCORD_REFRESH_TOKEN, refresh_token);
       return;
     } catch (err) {
       message.error(err.toString());
@@ -71,13 +56,13 @@ const TwitterAuth = () => {
     setCanGetToken(false);
   }
 
-  async function getTwitterUserInfoByToken() {
+  async function getDiscordUserInfoByToken() {
     setLoading(true);
     try {
-      const user = await client.twitter.getUserByToken(
-        twitterToken.access_token
+      const user = await client.discord.getUserByToken(
+        discordToken.access_token
       );
-      setTwitterUser(user);
+      setDiscordUser(user);
     } catch (err) {
       message.error(err.toString());
     } finally {
@@ -85,19 +70,19 @@ const TwitterAuth = () => {
     }
   }
 
-  async function refreshTwitterToken() {
+  async function refreshDiscordToken() {
     setCanGetToken(true);
     setLoading(true);
     try {
       const { access_token, expires_in, refresh_token } =
         await client.discord.getOAuth2TokenByRefresh({
-          refresh_token: twitterToken.refresh_token,
+          refresh_token: discordToken.refresh_token,
         });
-      setTwitterToken({ access_token, refresh_token });
-      Cookies.set(TWITTER_ACCESS_TOKEN, access_token, {
+      setDiscordToken({ access_token, refresh_token });
+      Cookies.set(DISCORD_ACCESS_TOKEN, access_token, {
         expires: new Date(new Date().getTime() + expires_in * 1000),
       });
-      Cookies.set(TWITTER_REFRESH_TOKEN, refresh_token);
+      Cookies.set(DISCORD_REFRESH_TOKEN, refresh_token);
       return;
     } catch (err) {
       message.error(err.toString());
@@ -122,7 +107,7 @@ const TwitterAuth = () => {
         className="marginTop30 gradient-text bold marginBottom30"
         style={{ fontSize: 50 }}
       >
-        Twitter Auth Test
+        Discord Auth Test
       </div>
 
       {!canGetToken && (
@@ -132,33 +117,47 @@ const TwitterAuth = () => {
           size={`large`}
           onClick={jumpToAuth}
         >
-          Request Twitter Auth
+          Request Discord Auth
         </Button>
       )}
 
-      {twitterToken.access_token && (
+      {discordToken.access_token && (
         <div>
-          <Button
-            type="primary"
-            disabled={!canGetToken}
-            loading={loading}
-            size={`large`}
-            onClick={getTwitterUserInfoByToken}
-          >
-            Get Twitter User Info
-          </Button>
+          <div>
+            <Button
+              type="primary"
+              disabled={!canGetToken}
+              loading={loading}
+              size={`large`}
+              onClick={getDiscordUserInfoByToken}
+            >
+              Get Discord User Info
+            </Button>
+          </div>
+          <br />
+          <div>
+            <Button
+              type="primary"
+              disabled={!canGetToken}
+              loading={loading}
+              size={`large`}
+              onClick={refreshDiscordToken}
+            >
+              Refresh Token
+            </Button>
+          </div>
         </div>
       )}
 
-      <h2 className="colorWhite marginTop20 textWarp" style={{ maxWidth: 500 }}>
-        {JSON.stringify({ twitterToken })}
+      <h2 className="colorWhite marginTop20 textWarp" style={{ maxWidth: 600 }}>
+        {JSON.stringify({ discordToken })}
       </h2>
 
-      <h2 className="colorWhite marginTop20 textWarp" style={{ maxWidth: 500 }}>
-        {JSON.stringify({ twitterUser })}
+      <h2 className="colorWhite marginTop20 textWarp" style={{ maxWidth: 600 }}>
+        {JSON.stringify({ discordUser })}
       </h2>
     </div>
   );
 };
 
-export default TwitterAuth;
+export default discordAuth;
