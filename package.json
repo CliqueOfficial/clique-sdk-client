@@ -7,7 +7,7 @@
     "preview": "vite preview"
   },
   "repository": "https://github.com/CliqueOfficial/clique-sdk-client.git",
-  "author": "Han Wu <xjohnwu@gmail.com>",
+  "author": "Han Wu <han@2046inc.xyz>",
   "license": "MIT",
   "dependencies": {
     "@cliqueofficial/clique-sdk": "1.2.11",
