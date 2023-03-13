@@ -15,33 +15,52 @@ const walletAddress = String(process.env.WALLET_ADDRESS);
   });
 
   const client = new CliqueClient({
-    env: Environment.Test,
+    env: Environment.Dev,
     apiKey,
     apiSecret,
   });
 
-  rl.question(
-    "Please copy & paste your Twitter access token here: ",
-    async (twitterAccessToken) => {
-      const data = await client.campaign.getStatistics({
-        walletAddress,
-        twitterAccessToken,
-      });
-      console.log(data);
 
-      const submitEntryResult = await client.campaign.submitEntry({
-        walletAddress,
-        twitterAccessToken,
-      });
-      console.log(submitEntryResult);
+  function questionAsync(msg): Promise<string>{
+    return new Promise((resolve, reject) => {
+      rl.question(msg, (answer) => {
+        resolve(answer);
+      })
+    });
+  }
 
-      const updateEntryResult = await client.campaign.updateEntry({
-        walletAddress,
-        twitterAccessToken,
-      });
-      console.log(updateEntryResult);
+  const twitterAccessToken
+    = await questionAsync('Please copy & paste your Twitter access token here(if your campaign need): ');
+  const discordAccessToken
+    = await questionAsync('Please copy & paste your Discord access token here(if your campaign need): ');
 
-      process.exit(0);
-    }
-  );
+  const data = await client.campaign.getStatistics({
+    walletAddress,
+    twitterAccessToken,
+    discordAccessToken,
+  });
+  console.log(data);
+
+  const hasEntriesResult = await client.campaign.hasEntries({
+    walletAddress,
+  });
+  console.log(hasEntriesResult);
+
+  const countEntriesResult = await client.campaign.countEntries();
+  console.log(countEntriesResult);
+
+  const submitEntryResult = await client.campaign.submitEntry({
+    walletAddress,
+    twitterAccessToken,
+  });
+  console.log(submitEntryResult);
+
+  const updateEntryResult = await client.campaign.updateEntry({
+    walletAddress,
+    twitterAccessToken,
+  });
+  console.log(updateEntryResult);
+
+  process.exit(0);
+
 })();
