@@ -15,7 +15,7 @@ const walletAddress = String(process.env.WALLET_ADDRESS);
   });
 
   const client = new CliqueClient({
-    env: Environment.Production,
+    env: Environment.Test,
     apiKey,
     apiSecret,
   });

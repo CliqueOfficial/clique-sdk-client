@@ -6,7 +6,6 @@ dotenv.config();
 
 const apiKey = String(process.env.API_KEY);
 const apiSecret = String(process.env.API_SECRET);
-const walletAddress = String(process.env.WALLET_ADDRESS);
 
 (async () => {
   let rl = readline.createInterface({
@@ -15,21 +14,30 @@ const walletAddress = String(process.env.WALLET_ADDRESS);
   });
 
   const client = new CliqueClient({
-    env: Environment.Production,
+    env: Environment.Test,
     apiKey,
     apiSecret,
   });
 
-  rl.question(
-    "Please copy & paste your Twitter access token here: ",
-    async (twitterAccessToken) => {
-      const data = await client.campaign.getTaskResult({
-        walletAddress,
-        twitterAccessToken,
-      });
-      console.log(data);
+  function questionAsync(msg): Promise<string>{
+    return new Promise((resolve, reject) => {
+      rl.question(msg, (answer) => {
+        resolve(answer);
+      })
+    });
+  }
 
-      process.exit(0);
-    }
-  );
+  const twitterAccessToken
+    = await questionAsync('Please copy & paste your Twitter access token here(if your campaign need): ');
+  const discordAccessToken
+    = await questionAsync('Please copy & paste your Discord access token here(if your campaign need): ');
+
+  const data = await client.campaign.getTaskResult({
+    twitterAccessToken,
+    discordAccessToken,
+  });
+  console.log(data);
+
+  process.exit(0);
+
 })();
