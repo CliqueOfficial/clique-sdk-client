@@ -10,7 +10,7 @@
   "author": "Han Wu <han@2046inc.xyz>",
   "license": "MIT",
   "dependencies": {
-    "@cliqueofficial/clique-sdk": "1.2.13",
+    "@cliqueofficial/clique-sdk": "latest",
     "@types/js-cookie": "^3.0.3",
     "antd": "^5.0.2",
     "ethers": "^5.7.2",
