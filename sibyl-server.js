@@ -39,6 +39,8 @@ router.get('/twitter_user', async (ctx) => {
       bearer: token,
     },
   });
+
+  console.log({ response });
   ctx.body = { user: JSON.parse(response.result).data }
 });
 
