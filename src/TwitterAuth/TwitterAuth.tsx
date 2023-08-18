@@ -3,11 +3,17 @@ import React, { useEffect, useState } from "react";
 import { Button, message } from "antd";
 import { client, ENV } from "../config";
 import { getParamsFromUrl } from "../utils";
+import axios from "axios";
+import { rsaEncrypt } from "../encryptTool";
 
 const redirect_uri = "http://localhost:5173/twitter";
-const TWITTER_ACCESS_TOKEN = "twitter_access_token";
-const TWITTER_REFRESH_TOKEN = "twitter_refresh_token";
 const TWITTER_CLIENT_ID = "twitter_client_id";
+const api_base_url = "http://localhost:3000";
+
+async function encryptAccessToken(accessToken: string) {
+  const { data: { publicKey } } = await axios.get(`${api_base_url}/twitter_rsa_public_key`);
+  return await rsaEncrypt(accessToken, publicKey);
+}
 
 async function getClientId() {
   let client_id = Cookies.get(TWITTER_CLIENT_ID);
@@ -24,6 +30,7 @@ const TwitterAuth = () => {
   const [canGetToken, setCanGetToken] = useState(false);
   const [twitterToken, setTwitterToken] = useState({
     access_token: null,
+    encrypted_access_token: null,
     refresh_token: null,
   });
   const [twitterUser, setTwitterUser] = useState(null);
@@ -31,7 +38,6 @@ const TwitterAuth = () => {
   async function jumpToAuth() {
     setLoading(true);
     const client_id = await getClientId();
-
     const { url } = await client.twitter.getOAuth2Link({
       client_id: client_id,
       redirect_uri: redirect_uri,
@@ -52,16 +58,13 @@ const TwitterAuth = () => {
     setLoading(true);
     try {
       const client_id = await getClientId();
-      const { access_token, expires_in, refresh_token } =
+      const { access_token, refresh_token } =
         await client.twitter.getOAuth2Token({
           client_id: client_id,
           code: params.code,
         });
-      setTwitterToken({ access_token, refresh_token });
-      Cookies.set(TWITTER_ACCESS_TOKEN, access_token, {
-        expires: new Date(new Date().getTime() + expires_in * 1000),
-      });
-      Cookies.set(TWITTER_REFRESH_TOKEN, refresh_token);
+      const encrypted_access_token = await encryptAccessToken(access_token);
+      setTwitterToken({ access_token, encrypted_access_token, refresh_token });
       return;
     } catch (err) {
       message.error(err.toString());
@@ -74,37 +77,13 @@ const TwitterAuth = () => {
   async function getTwitterUserInfoByToken() {
     setLoading(true);
     try {
-      const user = await client.twitter.getUserByToken(
-        twitterToken.access_token
-      );
+      const { data: { user } } = await axios.get(`${api_base_url}/twitter_user`, { params: { token: twitterToken.encrypted_access_token } });
       setTwitterUser(user);
     } catch (err) {
       message.error(err.toString());
     } finally {
       setLoading(false);
     }
-  }
-
-  async function refreshTwitterToken() {
-    setCanGetToken(true);
-    setLoading(true);
-    try {
-      const { access_token, expires_in, refresh_token } =
-        await client.discord.getOAuth2TokenByRefresh({
-          refresh_token: twitterToken.refresh_token,
-        });
-      setTwitterToken({ access_token, refresh_token });
-      Cookies.set(TWITTER_ACCESS_TOKEN, access_token, {
-        expires: new Date(new Date().getTime() + expires_in * 1000),
-      });
-      Cookies.set(TWITTER_REFRESH_TOKEN, refresh_token);
-      return;
-    } catch (err) {
-      message.error(err.toString());
-    } finally {
-      setLoading(false);
-    }
-    setCanGetToken(false);
   }
 
   useEffect(() => {
