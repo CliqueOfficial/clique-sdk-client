@@ -11,7 +11,7 @@ async function request(data) {
   const config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'https://20.29.81.33:3443/query',
+    url: 'https://sibyl.clique-test.social/query',
     headers: { 
       'Content-Type': 'application/json'
     },
