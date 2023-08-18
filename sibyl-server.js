@@ -10,7 +10,6 @@ const router = new Router();
 async function request(data) {
   const config = {
     method: 'post',
-    maxBodyLength: Infinity,
     url: 'https://sibyl.clique-test.social/query',
     headers: { 
       'Content-Type': 'application/json'
