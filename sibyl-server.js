@@ -25,7 +25,7 @@ async function request(data) {
 
 router.get('/twitter_rsa_public_key', async (ctx) => {
   const response = await request({
-    "query_type": "twitter_get_rsa_public_key",
+    "query_type": "twitter_rsa_public_key",
   });
   ctx.body = response;
 });
