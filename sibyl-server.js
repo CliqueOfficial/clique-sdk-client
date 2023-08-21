@@ -55,7 +55,7 @@ router.get('/twitter_auth_tokens_by_refresh_token', async (ctx) => {
   ctx.body = response;
 });
 
-router.get('/twitter_user', async (ctx) => {
+router.get('/twitter_me', async (ctx) => {
   const { token } = ctx.request.query;
   const response = await request({
     "query_type": "twitter_me",

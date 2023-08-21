@@ -82,7 +82,7 @@ const TwitterAuth = () => {
     setLoading(true);
     try {
       const { data: { result } } = await axios.get(
-        `${api_base_url}/twitter_user`, 
+        `${api_base_url}/twitter_me`,
         { 
           params: { 
             token: twitterToken.access_token 
