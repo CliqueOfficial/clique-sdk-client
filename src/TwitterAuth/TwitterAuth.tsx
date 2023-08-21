@@ -10,9 +10,9 @@ const redirect_uri = "http://localhost:5173/twitter";
 const TWITTER_CLIENT_ID = "twitter_client_id";
 const api_base_url = "http://localhost:3000";
 
-async function encryptAccessToken(accessToken: string) {
-  const { data: { publicKey } } = await axios.get(`${api_base_url}/twitter_rsa_public_key`);
-  return await rsaEncrypt(accessToken, publicKey);
+async function getRsaPublicKey() {
+  const { data: { result } } = await axios.get(`${api_base_url}/twitter_rsa_public_key`);
+  return result  
 }
 
 async function getClientId() {
@@ -30,8 +30,8 @@ const TwitterAuth = () => {
   const [canGetToken, setCanGetToken] = useState(false);
   const [twitterToken, setTwitterToken] = useState({
     access_token: null,
-    encrypted_access_token: null,
     refresh_token: null,
+    expires_in: null,
   });
   const [twitterUser, setTwitterUser] = useState(null);
 
@@ -49,22 +49,26 @@ const TwitterAuth = () => {
 
   async function checkUrlAndGetToken() {
     const params = getParamsFromUrl(window.location.href);
-
     if (!params.code) {
       return;
     }
-
     setCanGetToken(true);
     setLoading(true);
     try {
       const client_id = await getClientId();
-      const { access_token, refresh_token } =
-        await client.twitter.getOAuth2Token({
-          client_id: client_id,
-          code: params.code,
-        });
-      const encrypted_access_token = await encryptAccessToken(access_token);
-      setTwitterToken({ access_token, encrypted_access_token, refresh_token });
+      const publicRsaKey = await getRsaPublicKey();
+      const { data: { result } } = await axios.get(
+        `${api_base_url}/twitter_auth_tokens`, 
+        { 
+          params: {
+            code: await rsaEncrypt(params.code, publicRsaKey),
+            client_id: await rsaEncrypt(client_id, publicRsaKey),
+            redirect_uri: await rsaEncrypt("https://provenance.clique-test.social/social_login", publicRsaKey),
+          }
+        }
+      );
+      const { access_token, refresh_token, expires_in } = JSON.parse(result);
+      setTwitterToken({ access_token, refresh_token, expires_in });
       return;
     } catch (err) {
       message.error(err.toString());
@@ -77,8 +81,39 @@ const TwitterAuth = () => {
   async function getTwitterUserInfoByToken() {
     setLoading(true);
     try {
-      const { data: { user } } = await axios.get(`${api_base_url}/twitter_user`, { params: { token: twitterToken.encrypted_access_token } });
+      const { data: { result } } = await axios.get(
+        `${api_base_url}/twitter_user`, 
+        { 
+          params: { 
+            token: twitterToken.access_token 
+          } 
+        }
+      );
+      const user = JSON.parse(result).data;
       setTwitterUser(user);
+    } catch (err) {
+      message.error(err.toString());
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function refreshAuthToken() {
+    setLoading(true);
+    try {
+      const client_id = await getClientId();
+      const publicRsaKey = await getRsaPublicKey();
+      const { data: { result } } = await axios.get(
+        `${api_base_url}/twitter_auth_tokens_by_refresh_token`,
+        { 
+          params: {
+            refresh_token: twitterToken.refresh_token,
+            client_id: await rsaEncrypt(client_id, publicRsaKey),
+         } 
+        }
+      );
+      const { access_token, refresh_token, expires_in } = JSON.parse(result);
+      setTwitterToken({ access_token, refresh_token, expires_in });
     } catch (err) {
       message.error(err.toString());
     } finally {
@@ -116,17 +151,32 @@ const TwitterAuth = () => {
       )}
 
       {twitterToken.access_token && (
-        <div>
-          <Button
-            type="primary"
-            disabled={!canGetToken}
-            loading={loading}
-            size={`large`}
-            onClick={getTwitterUserInfoByToken}
-          >
-            Get Twitter User Info
-          </Button>
-        </div>
+        <>
+          <div>
+            <Button
+              type="primary"
+              disabled={!canGetToken}
+              loading={loading}
+              size={`large`}
+              onClick={refreshAuthToken}
+            >
+              Refresh Twitter Auth
+            </Button>
+          </div>
+          <div style={{ marginTop: 20 }}>
+            <Button
+              type="primary"
+              disabled={!canGetToken}
+              loading={loading}
+              size={`large`}
+              onClick={getTwitterUserInfoByToken}
+            >
+              Get Twitter User Info
+            </Button>
+          </div>
+        </>
+        
+
       )}
 
       <h2 className="colorWhite marginTop20 textWarp" style={{ maxWidth: 500 }}>

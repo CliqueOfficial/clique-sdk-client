@@ -27,7 +27,32 @@ router.get('/twitter_rsa_public_key', async (ctx) => {
   const response = await request({
     "query_type": "twitter_get_rsa_public_key",
   });
-  ctx.body = { publicKey: response.result };
+  ctx.body = response;
+});
+
+router.get('/twitter_auth_tokens', async (ctx) => {
+  const { code, client_id, redirect_uri } = ctx.request.query;
+  const response = await request({
+    "query_type": "twitter_auth_tokens",
+    "query_param": {
+      code,
+      client_id,
+      redirect_uri,
+    },
+  });
+  ctx.body = response;
+});
+
+router.get('/twitter_auth_tokens_by_refresh_token', async (ctx) => {
+  const { client_id, refresh_token } = ctx.request.query;
+  const response = await request({
+    "query_type": "twitter_auth_tokens_by_refresh_token",
+    "query_param": {
+      client_id,
+      refresh_token,
+    },
+  });
+  ctx.body = response;
 });
 
 router.get('/twitter_user', async (ctx) => {
@@ -38,9 +63,7 @@ router.get('/twitter_user', async (ctx) => {
       bearer: token,
     },
   });
-
-  console.log({ response });
-  ctx.body = { user: JSON.parse(response.result).data }
+  ctx.body = response
 });
 
 app
