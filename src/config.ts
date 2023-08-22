@@ -7,7 +7,7 @@ const apiKey = String(ENV.VITE_API_KEY);
 const apiSecret = String(ENV.VITE_API_SECRET);
 
 export const client = new CliqueClient({
-  env: Environment[String(ENV.ENVIRONMENT)],
+  env: Environment[String(ENV.VITE_ENVIRONMENT)],
   apiKey,
   apiSecret,
 });

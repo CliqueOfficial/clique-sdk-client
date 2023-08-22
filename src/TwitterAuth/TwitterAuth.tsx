@@ -5,16 +5,17 @@ import { client, ENV } from "../config";
 import { getParamsFromUrl } from "../utils";
 
 const redirect_uri = "http://localhost:5173/twitter";
-const TWITTER_CLIENT_ID = "twitter_client_id";
+const TWITTER_CLIENT_ID_KEY = "twitter_client_id";
 
 
 // you should return your own twitter app client_id
+// just return 'your client_id'
 async function getClientId() {
-  let client_id = Cookies.get(TWITTER_CLIENT_ID);
+  let client_id = Cookies.get(TWITTER_CLIENT_ID_KEY);
   if (!client_id) {
     const data = await client.twitter.getClientId();
     client_id = data.client_id;
-    Cookies.set(TWITTER_CLIENT_ID, client_id);
+    Cookies.set(TWITTER_CLIENT_ID_KEY, client_id);
   }
   return client_id;
 }
