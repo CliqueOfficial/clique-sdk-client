@@ -1,24 +1,11 @@
-import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { Button, message } from "antd";
 import { client, ENV } from "../config";
 import { getParamsFromUrl } from "../utils";
 
 const redirect_uri = "http://localhost:5173/twitter";
-const TWITTER_CLIENT_ID_KEY = "twitter_client_id";
+const client_id = "eEpMNU9DSDl6dTNCQi1zcDNTMGc6MTpjaQ";
 
-
-// you should return your own twitter app client_id
-// just return 'your client_id'
-async function getClientId() {
-  let client_id = Cookies.get(TWITTER_CLIENT_ID_KEY);
-  if (!client_id) {
-    const data = await client.twitter.getClientId();
-    client_id = data.client_id;
-    Cookies.set(TWITTER_CLIENT_ID_KEY, client_id);
-  }
-  return client_id;
-}
 
 const TwitterAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -32,7 +19,6 @@ const TwitterAuth = () => {
 
   async function jumpToAuth() {
     setLoading(true);
-    const client_id = await getClientId();
     const { url } = await client.twitterSibyl.getOAuth2Link({
       client_id: client_id,
       redirect_uri: redirect_uri,
@@ -50,8 +36,6 @@ const TwitterAuth = () => {
     setCanGetToken(true);
     setLoading(true);
     try {
-      const client_id = await getClientId();
-
       const { access_token, refresh_token, expires_in } = await client.twitterSibyl.getOAuth2Token({
         code: params.code,
         client_id: client_id,
@@ -83,8 +67,6 @@ const TwitterAuth = () => {
   async function refreshAuthToken() {
     setLoading(true);
     try {
-      const client_id = await getClientId();
-
       const { access_token, refresh_token, expires_in } = await client.twitterSibyl.getOAuth2TokenByRefresh({
         client_id: client_id,
         refresh_token: twitterToken.refresh_token,
@@ -137,7 +119,7 @@ const TwitterAuth = () => {
               size={`large`}
               onClick={refreshAuthToken}
             >
-              Refresh Twitter Auth
+              Refresh Twitter AccessToken
             </Button>
           </div>
           <div style={{ marginTop: 20 }}>
