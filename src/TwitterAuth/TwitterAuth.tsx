@@ -3,18 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Button, message } from "antd";
 import { client, ENV } from "../config";
 import { getParamsFromUrl } from "../utils";
-import axios from "axios";
-import { rsaEncrypt } from "../encryptTool";
 
 const redirect_uri = "http://localhost:5173/twitter";
 const TWITTER_CLIENT_ID = "twitter_client_id";
-const api_base_url = "http://localhost:3000";
 
-async function getRsaPublicKey() {
-  const { data: { result } } = await axios.get(`${api_base_url}/twitter_rsa_public_key`);
-  return result  
-}
 
+// you should return your own twitter app client_id
 async function getClientId() {
   let client_id = Cookies.get(TWITTER_CLIENT_ID);
   if (!client_id) {
@@ -38,7 +32,7 @@ const TwitterAuth = () => {
   async function jumpToAuth() {
     setLoading(true);
     const client_id = await getClientId();
-    const { url } = await client.twitter.getOAuth2Link({
+    const { url } = await client.twitterSibyl.getOAuth2Link({
       client_id: client_id,
       redirect_uri: redirect_uri,
     });
@@ -56,18 +50,13 @@ const TwitterAuth = () => {
     setLoading(true);
     try {
       const client_id = await getClientId();
-      const publicRsaKey = await getRsaPublicKey();
-      const { data: { result } } = await axios.get(
-        `${api_base_url}/twitter_auth_tokens`, 
-        { 
-          params: {
-            code: await rsaEncrypt(params.code, publicRsaKey),
-            client_id: await rsaEncrypt(client_id, publicRsaKey),
-            redirect_uri: await rsaEncrypt("https://provenance.clique-test.social/social_login", publicRsaKey),
-          }
-        }
-      );
-      const { access_token, refresh_token, expires_in } = JSON.parse(result);
+
+      const { access_token, refresh_token, expires_in } = await client.twitterSibyl.getOAuth2Token({
+        code: params.code,
+        client_id: client_id,
+        redirect_uri,
+      });
+
       setTwitterToken({ access_token, refresh_token, expires_in });
       return;
     } catch (err) {
@@ -81,15 +70,7 @@ const TwitterAuth = () => {
   async function getTwitterUserInfoByToken() {
     setLoading(true);
     try {
-      const { data: { result } } = await axios.get(
-        `${api_base_url}/twitter_me`,
-        { 
-          params: { 
-            token: twitterToken.access_token 
-          } 
-        }
-      );
-      const user = JSON.parse(result).data;
+      const user = await client.twitterSibyl.getUserByToken(twitterToken.access_token);
       setTwitterUser(user);
     } catch (err) {
       message.error(err.toString());
@@ -102,17 +83,12 @@ const TwitterAuth = () => {
     setLoading(true);
     try {
       const client_id = await getClientId();
-      const publicRsaKey = await getRsaPublicKey();
-      const { data: { result } } = await axios.get(
-        `${api_base_url}/twitter_auth_tokens_by_refresh_token`,
-        { 
-          params: {
-            refresh_token: twitterToken.refresh_token,
-            client_id: await rsaEncrypt(client_id, publicRsaKey),
-         } 
-        }
-      );
-      const { access_token, refresh_token, expires_in } = JSON.parse(result);
+
+      const { access_token, refresh_token, expires_in } = await client.twitterSibyl.getOAuth2TokenByRefresh({
+        client_id: client_id,
+        refresh_token: twitterToken.refresh_token,
+      });
+
       setTwitterToken({ access_token, refresh_token, expires_in });
     } catch (err) {
       message.error(err.toString());
@@ -136,7 +112,7 @@ const TwitterAuth = () => {
         className="marginTop30 gradient-text bold marginBottom30"
         style={{ fontSize: 50 }}
       >
-        Twitter Auth Test
+        Twitter Auth Test by Sibyl
       </div>
 
       {!canGetToken && (
@@ -171,20 +147,20 @@ const TwitterAuth = () => {
               size={`large`}
               onClick={getTwitterUserInfoByToken}
             >
-              Get Twitter User Info
+              Get Twitter User Info by Sibyl Encrypt Twitter AccessToken
             </Button>
           </div>
         </>
-        
-
       )}
 
       <h2 className="colorWhite marginTop20 textWarp" style={{ maxWidth: 500 }}>
-        {JSON.stringify({ twitterToken })}
+        <div style={{opacity: 0.5}}>Encrypted Twitter AccessToken: </div>
+        {twitterToken.access_token && JSON.stringify({ twitterToken })}
       </h2>
 
       <h2 className="colorWhite marginTop20 textWarp" style={{ maxWidth: 500 }}>
-        {JSON.stringify({ twitterUser })}
+        <div style={{opacity: 0.5}}>TwitterUser Info: </div>
+        {twitterUser && JSON.stringify({ twitterUser })}
       </h2>
     </div>
   );
