@@ -2,10 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Button, message } from "antd";
 import { client, ENV } from "../config";
 import { getParamsFromUrl } from "../utils";
+import ReactJson from "react-json-view";
+import {
+  Navigate,
+  redirect,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
 const redirect_uri = "http://localhost:5173/twitter";
 const client_id = "eEpMNU9DSDl6dTNCQi1zcDNTMGc6MTpjaQ";
-
 
 const TwitterAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -16,6 +22,7 @@ const TwitterAuth = () => {
     expires_in: null,
   });
   const [twitterUser, setTwitterUser] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   async function jumpToAuth() {
     setLoading(true);
@@ -36,13 +43,17 @@ const TwitterAuth = () => {
     setCanGetToken(true);
     setLoading(true);
     try {
-      const { access_token, refresh_token, expires_in } = await client.twitterSibyl.getOAuth2Token({
-        code: params.code,
-        client_id: client_id,
-        redirect_uri,
-      });
+      const { access_token, refresh_token, expires_in } =
+        await client.twitterSibyl.getOAuth2Token({
+          code: params.code,
+          client_id: client_id,
+          redirect_uri,
+        });
 
       setTwitterToken({ access_token, refresh_token, expires_in });
+      searchParams.delete("code");
+      searchParams.delete("state");
+      setSearchParams(searchParams);
       return;
     } catch (err) {
       message.error(err.toString());
@@ -55,7 +66,9 @@ const TwitterAuth = () => {
   async function getTwitterUserInfoByToken() {
     setLoading(true);
     try {
-      const user = await client.twitterSibyl.getUserByToken(twitterToken.access_token);
+      const user = await client.twitterSibyl.getUserByToken(
+        twitterToken.access_token
+      );
       setTwitterUser(user);
     } catch (err) {
       message.error(err.toString());
@@ -67,10 +80,11 @@ const TwitterAuth = () => {
   async function refreshAuthToken() {
     setLoading(true);
     try {
-      const { access_token, refresh_token, expires_in } = await client.twitterSibyl.getOAuth2TokenByRefresh({
-        client_id: client_id,
-        refresh_token: twitterToken.refresh_token,
-      });
+      const { access_token, refresh_token, expires_in } =
+        await client.twitterSibyl.getOAuth2TokenByRefresh({
+          client_id: client_id,
+          refresh_token: twitterToken.refresh_token,
+        });
 
       setTwitterToken({ access_token, refresh_token, expires_in });
     } catch (err) {
@@ -122,6 +136,13 @@ const TwitterAuth = () => {
               Refresh Twitter AccessToken
             </Button>
           </div>
+          <h2
+            className="colorWhite marginTop20 textWarp"
+            style={{ maxWidth: 1000 }}
+          >
+            <div style={{ opacity: 0.5 }}>Encrypted Twitter AccessToken: </div>
+            <ReactJson src={twitterToken} theme="monokai" />
+          </h2>
           <div style={{ marginTop: 20 }}>
             <Button
               type="primary"
@@ -135,16 +156,17 @@ const TwitterAuth = () => {
           </div>
         </>
       )}
-
-      <h2 className="colorWhite marginTop20 textWarp" style={{ maxWidth: 500 }}>
-        <div style={{opacity: 0.5}}>Encrypted Twitter AccessToken: </div>
-        {twitterToken.access_token && JSON.stringify({ twitterToken })}
-      </h2>
-
-      <h2 className="colorWhite marginTop20 textWarp" style={{ maxWidth: 500 }}>
-        <div style={{opacity: 0.5}}>TwitterUser Info: </div>
-        {twitterUser && JSON.stringify({ twitterUser })}
-      </h2>
+      {twitterUser && (
+        <>
+          <h2
+            className="colorWhite marginTop20 textWarp"
+            style={{ maxWidth: 1000 }}
+          >
+            <div style={{ opacity: 0.5 }}>TwitterUser Info: </div>
+            <ReactJson src={twitterUser} theme="monokai" />
+          </h2>
+        </>
+      )}
     </div>
   );
 };

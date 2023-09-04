@@ -381,7 +381,7 @@ a:hover, a:visited, a:link, a:active {
   height: 100vh;
   background-color: #0d1116;
   overflow: auto;
-  text-align: center;
+  /* text-align: center; */
 }
 
 .gradient-text {
