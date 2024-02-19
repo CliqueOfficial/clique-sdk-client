@@ -106,3 +106,4 @@ dist
 
 # prevent accidental commit of GitHub auth token
 .npmrc
+.idea

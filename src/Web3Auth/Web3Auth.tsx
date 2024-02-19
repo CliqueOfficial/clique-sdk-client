@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
+import axios from "axios";
 import { Button, message } from "antd";
 import { getEtherObject } from "./utils";
 
@@ -25,18 +26,40 @@ const RequestSign = (props) => {
 
   async function requestSignMessage() {
     setLoading(true);
+
+    const jwtToken = window.localStorage.getItem('jwtToken');
+
     try {
       // 1. request sign message
-      const { message } = await client.web3.getSignMessage(props.address);
+      // const { message } = await client.web3.getSignMessage(props.address);
+      const res = await axios({
+          method: 'get',
+          url: `http://localhost:3005/auth/web3/signature?address=${props.address}`,
+          headers: {
+              'clq-jwt': jwtToken,
+          }
+      });
+      const message = res.data.message;
       // 2. use wallet sign the message to get signature
       const signature = await signMessage(message);
       console.log(signature);
-      // 3. get web3 auth token
-      const { web3Token } = await client.web3.getTokenBySign({
-        address: props.address,
-        signature,
+
+      const redLogin = await axios({
+        method: 'post',
+        url: `http://localhost:3005/auth/login/wallet`,
+        data: {
+            address: props.address,
+            signature: signature,
+        },
+          headers: {
+              'clq-jwt': jwtToken,
+          }
       });
-      setWeb3Token(web3Token);
+
+      setWeb3Token(redLogin.data.jwtToken);
+
+      window.localStorage.setItem('jwtToken', redLogin.data.jwtToken);
+
     } catch (err) {
       message.error(err.toString());
     } finally {
