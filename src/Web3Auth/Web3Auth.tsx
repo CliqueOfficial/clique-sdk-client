@@ -20,6 +20,10 @@ async function signMessage(msg: string) {
   return await signer.signMessage(msg);
 }
 
+// const baseAPIUrl = `http://localhost:3006`;
+const baseAPIUrl = `https://b3-api.sit.clique-test.tech`;
+// const baseAPIUrl = `https://secret-ai-api.sit.clique-test.tech`;
+
 const RequestSign = (props) => {
   const [loading, setLoading] = useState(false);
   const [web3Token, setWeb3Token] = useState(null);
@@ -34,7 +38,7 @@ const RequestSign = (props) => {
       // const { message } = await client.web3.getSignMessage(props.address);
       const res = await axios({
           method: 'get',
-          url: `http://localhost:3005/auth/web3/signature?address=${props.address}`,
+          url: `${baseAPIUrl}/wallet/message?address=${props.address}`,
           headers: {
               'clq-jwt': jwtToken,
           }
@@ -46,10 +50,11 @@ const RequestSign = (props) => {
 
       const redLogin = await axios({
         method: 'post',
-        url: `http://localhost:3005/auth/login/wallet`,
+        url: `${baseAPIUrl}/wallet/login`,
         data: {
             address: props.address,
             signature: signature,
+            chainId: 1,
         },
           headers: {
               'clq-jwt': jwtToken,
