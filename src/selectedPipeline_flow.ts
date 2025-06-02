@@ -28,7 +28,7 @@ const steamToken =
       );
       /**
        * @notice  SelectPipelines must be a subset of configured pipelines of this project.
-       * If Setting SelectPipelines undefine will query all configured pipelines from proejct
+       * If Setting SelectPipelines undefine will query all configured pipelines from project
        */
       const data = await client.campaign.getStatistics({
             walletAddress: walletAddress,
